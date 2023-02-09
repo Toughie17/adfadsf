@@ -20,7 +20,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="FOP-oD-SD1">
                                 <rect key="frame" x="10" y="189" width="373" height="206"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="타이머" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XId-vM-xGF">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="타이머" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XId-vM-xGF">
                                         <rect key="frame" x="0.0" y="0.0" width="373" height="24"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <nil key="textColor"/>
@@ -61,6 +61,9 @@
                                             </stackView>
                                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="mRD-DG-cv1">
                                                 <rect key="frame" x="52" y="0.0" width="269" height="31"/>
+                                                <connections>
+                                                    <action selector="sliderChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="k5Q-Sy-IOu"/>
+                                                </connections>
                                             </slider>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="60초" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTd-94-NFC">
                                                 <rect key="frame" x="328" y="0.0" width="45" height="30"/>
@@ -93,6 +96,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="RESET">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="resetButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CI1-H0-Z18"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gf5-iR-x7Q">
                                         <rect key="frame" x="194" y="0.0" width="179" height="50"/>
@@ -102,6 +108,9 @@
                                         <buttonConfiguration key="configuration" style="plain" title="START">
                                             <fontDescription key="titleFontDescription" type="boldSystem" pointSize="20"/>
                                         </buttonConfiguration>
+                                        <connections>
+                                            <action selector="startButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XQ0-TP-Ym6"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <constraints>
@@ -120,6 +129,10 @@
                             <constraint firstItem="WLb-Lg-vw4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="wl7-Vn-dxs"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mainLabel" destination="auh-As-5ck" id="s4g-ye-K9w"/>
+                        <outlet property="slider" destination="mRD-DG-cv1" id="yx4-e5-Ruo"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
