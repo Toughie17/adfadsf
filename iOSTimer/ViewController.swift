@@ -11,78 +11,77 @@ import AVFoundation
 class ViewController: UIViewController {
     
     @IBOutlet weak var mainLabel: UILabel!
-    //가리키는 상대의 RC를 올리지 않도록 약한 참조, weak 키워드 사용
-    //스토리보드를 활용해서 만들면 서로를 가리키는(강한 참조 사이클) 가능성이 있어서
-    //기본 설정이 weak
-    
     @IBOutlet weak var slider: UISlider!
     
+    @IBOutlet weak var ramyunButton: UIButton!
+    @IBOutlet weak var plankButton: UIButton!
+    
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var resetButton: UIButton!
+
     weak var timer: Timer?
+    var number: Int = Int(Numbers.zero.rawValue)
     
-    var number: Int = 0
-    
-    //UIViewController 클래스에 있는 viewDidLoad 메서드를 재정의
-    //앱의 화면에 들어오면 처음 실행하는 함수
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
-    //보통 아래와 같이 세팅하는 요소들은 함수로 묶어서 viewDidLoad에서 호출
-    //코드를 깔끔하게 !
     func configureUI() {
         mainLabel.text = Text.select.rawValue
-        //슬라이더의 가운데 설정
-        slider.setValue(0.5, animated: true)
-        
+        slider.setValue(Float(Numbers.sliderCenter.rawValue), animated: true)
+        setButton()
     }
     
-    //valueChanged -> 슬라이더 움직이면 값이 바뀜
+    func setButton() {
+        ramyunButton.layer.cornerRadius = CGFloat(Numbers.buttonCornerRadius.rawValue)
+        plankButton.layer.cornerRadius = CGFloat(Numbers.buttonCornerRadius.rawValue)
+        startButton.layer.cornerRadius = CGFloat(Numbers.buttonCornerRadius.rawValue)
+        resetButton.layer.cornerRadius = CGFloat(Numbers.buttonCornerRadius.rawValue)
+    }
+    
     @IBAction func sliderChanged(_ sender: UISlider) {
-        //슬라이더의 밸류값을 가지고 메인레이블의 텍스트 세팅
-        
-        number = Int(sender.value * 60)
+        number = Int(sender.value * Numbers.maximumSecond.rawValue)
         mainLabel.text = String(number) + Text.seconds.rawValue
-        
-        //        mainLabel.text = "\(seconds) 초"
     }
     
     @IBAction func startButtonTapped(_ sender: UIButton) {
-        //1초씩 지나갈 때마다 실행
         timer?.invalidate()
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(doSomethingAfter1Second), userInfo: nil, repeats: true)
-        //클로저 안에서 캡처리스트를 통해 self를 한 번만 쓰면 클로저 내부 코드에서는 self 안써도 됨
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(Int(Numbers.one.rawValue)), target: self, selector: #selector(doSomethingAfter1Second), userInfo: nil, repeats: true)
     }
-    
-    
     
     @objc func doSomethingAfter1Second() {
-        if number > 0 {
-            number -= 1
-            slider.value = Float(number) / Float(60)
+        if number > Int(Numbers.zero.rawValue) {
+            number -= Int(Numbers.one.rawValue)
+            slider.value = Float(number) / Numbers.maximumSecond.rawValue
             mainLabel.text = "\(number) 초"
         } else {
-            number = 0
+            number = Int(Numbers.zero.rawValue)
             mainLabel.text = Text.select.rawValue
             
-            //소리 나게 해야함
             timer?.invalidate()
-            AudioServicesPlayAlertSound(SystemSoundID(1322))
-            
-        }
-    }
-        @IBAction func resetButtonTapped(_ sender: UIButton) {
-            //초기화
-            configureUI()
-            number = 0
-            timer?.invalidate()
-            //timer = nil
+            AudioServicesPlayAlertSound(SystemSoundID(UInt32(Numbers.sound.rawValue)))
         }
     }
     
-// 앱 만들기 접근
-// 구글링
-// 공식문서
-// 타이머, 셀렉터 사용법
-// 선 그리기
-// 사운드 플레이
+    @IBAction func resetButtonTapped(_ sender: UIButton) {
+        configureUI()
+        number = Int(Numbers.zero.rawValue)
+        timer?.invalidate()
+    }
+    
+    @IBAction func ramyunButtonTapped(_ sender: UIButton) {
+        mainLabel.text = Text.ramyunText.rawValue
+        number = Int(Numbers.ramyun.rawValue)
+    }
+    
+    @IBAction func plankButtonTapped(_ sender: UIButton) {
+        mainLabel.text = Text.plankText.rawValue
+        number = Int(Numbers.plank.rawValue)
+    }
+    
+    @IBAction func stopButtonTapped(_ sender: UIButton) {
+        mainLabel.text = Text.stopText.rawValue + "\(number) 초"
+        timer?.invalidate()
+    }
+}
